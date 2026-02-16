@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(
+  File.expand_path("../lib/ruby_pulumi/generated", __dir__)
+)
+
+if ARGV.include?('-version')
+  puts "0.0.1"
+  exit 0
+end
+
+require 'grpc'
+require_relative '../lib/ruby_pulumi/language_host'
+
+server = GRPC::RpcServer.new 
+port = server.add_http2_port('127.0.0.1:0', :this_port_is_insecure)
+
+server.handle(RubyPulumi::LanguageHost.new)
+
+puts port 
+STDOUT.flush
+
+shutdown = false
+
+trap("TERM") { shutdown = true }
+trap("INT")  { shutdown = true }
+
+server_thread = Thread.new do
+  server.run
+end
+
+# Poll shutdown flag
+loop do
+  break if shutdown
+  sleep 0.1
+end
+
+server.stop
+server_thread.join
