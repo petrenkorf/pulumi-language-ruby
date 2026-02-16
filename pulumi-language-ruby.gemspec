@@ -1,7 +1,4 @@
 # frozen_string_literal: true
-
-require_relative "lib/pulumi/ruby/version"
-
 Gem::Specification.new do |spec|
   spec.name = "pulumi-language-ruby"
   spec.version = "0.0.1"
