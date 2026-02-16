@@ -5,7 +5,7 @@ require_relative 'generated/pulumi/language_services_pb'
 require_relative 'generated/pulumi/resource_pb'
 require_relative 'generated/pulumi/resource_services_pb'
 
-require_relative '../pulumi'
+require_relative 'pulumi'
 
 module RubyPulumi
   class LanguageHost < Pulumirpc::LanguageRuntime::Service 
