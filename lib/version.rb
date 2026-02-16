@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module Pulumi
-  module Language
-    module Ruby
-      VERSION = "0.1.0"
-    end
+  module Ruby
+    VERSION = "0.0.1"
   end
 end

@@ -4,7 +4,7 @@ require_relative "lib/pulumi/language/ruby/version"
 
 Gem::Specification.new do |spec|
   spec.name = "pulumi-language-ruby"
-  spec.version = Pulumi::Language::Ruby::VERSION
+  spec.version = Pulumi::Ruby::VERSION
   spec.authors = ["Petris Fernandes"]
   spec.email = ["petrisrf@gmail.com"]
 
