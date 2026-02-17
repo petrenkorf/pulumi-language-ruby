@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
     ls.readlines("\x0", chomp: true).reject do |f|
       (f == gemspec) ||
-        f.start_with?(*%w[bin/ Gemfile .gitignore .rspec spec/])
+      f.start_with?(*%w[bin/ generate.sh Gemfile .gitignore .rspec spec/])
     end
   end
   spec.bindir = "exe"
@@ -28,8 +28,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  spec.add "grpc", "~> 1.0"
-  spec.add_dependency "grpc-tools", "~> 1.0"
+  spec.add_dependency "grpc", "~> 1.0"
+  spec.add_development_dependency "grpc-tools", "~> 1.0"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
