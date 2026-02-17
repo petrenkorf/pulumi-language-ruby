@@ -1,3 +1,6 @@
+# Disclaimer
+This is a work in progress gem so we can make Pulumi available for ruby. Do not use it in production!
+
 # pulumi-language-ruby
 
 **Ruby runtime for Pulumi** – allows running Pulumi programs written in Ruby using the Pulumi CLI.
