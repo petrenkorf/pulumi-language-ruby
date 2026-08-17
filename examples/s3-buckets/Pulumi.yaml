@@ -1,0 +1,3 @@
+name: s3-buckets
+runtime: ruby
+description: Creates 10 AWS S3 buckets using the Ruby language host.
