@@ -1,24 +1,50 @@
 require_relative 'runtime'
+require 'google/protobuf/well_known_types'
 
-module Pulumi 
-  class Resource 
-    attr_reader :urn
-
+module Pulumi
+  class Resource
     def initialize(type, name, custom: false, parent: nil, props: {}, opts: {})
-      monitor = Runtime.monitor 
+      monitor = Runtime.monitor
       raise 'Monitor not initialized' unless monitor
 
-      response = monitor.register_resource(
-        Pulumirpc::RegisterResourceRequest.new(
-          type: type,
-          name: name,
-          custom: custom,
-          parent: parent&.urn.to_s
-        )
+      request = Pulumirpc::RegisterResourceRequest.new(
+        type: type,
+        name: name,
+        custom: custom,
+        parent: parent&.urn.to_s,
+        object: Google::Protobuf::Struct.from_hash(props),
+        provider: opts[:provider]&.urn.to_s.to_s
       )
 
-      @urn = response.urn
+      @resolver = Thread.new { monitor.register_resource(request) }
+    end
+
+    def urn
+      response.urn
+    end
+
+    def id
+      response.id
+    end
+
+    def outputs
+      response.object.to_h
+    end
+
+    def [](key)
+      outputs[key.to_s]
+    end
+
+    private
+
+    def response
+      @response ||= @resolver.value
+    end
+  end
+
+  class CustomResource < Resource
+    def initialize(type, name, props: {}, opts: {})
+      super(type, name, custom: true, parent: opts[:parent], props: props, opts: opts)
     end
   end
 end
-
